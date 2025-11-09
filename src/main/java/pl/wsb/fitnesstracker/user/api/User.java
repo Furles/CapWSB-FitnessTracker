@@ -21,8 +21,14 @@ public class User {
     @Nullable
     private Long id;
 
-    @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -30,10 +36,11 @@ public class User {
     public User(
             final String firstName,
             final String lastName,
-            final LocalDate birthdate,
+            final LocalDate birthday,
             final String email) {
-
-        this.birthdate = birthdate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
         this.email = email;
     }
 
