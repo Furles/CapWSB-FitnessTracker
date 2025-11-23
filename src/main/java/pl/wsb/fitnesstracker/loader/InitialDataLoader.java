@@ -33,7 +33,6 @@ import static java.util.Objects.isNull;
 class InitialDataLoader {
 
     private final JpaRepository<User, Long> userRepository;
-
     private final JpaRepository<Training, Long> trainingRepository;
 
     @EventListener

@@ -23,13 +23,13 @@ public class Statistics {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(name = "totaltrainings", nullable = false)
+    @Column(name = "total_trainings", nullable = false)
     private int totalTrainings;
 
-    @Column(name = "totaldistance")
+    @Column(name = "total_distance")
     private double totalDistance;
 
-    @Column(name = "totalcaloriesburned")
+    @Column(name = "total_calories_burned")
     private int totalCaloriesBurned;
 
     // Konstruktor
