@@ -9,7 +9,7 @@ import lombok.ToString;
 import pl.wsb.fitnesstracker.event.Event;
 import pl.wsb.fitnesstracker.user.api.User;
 
-@Entity
+@Entity(name = "UserTrackingEvent")
 @Table(name = "user_event")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

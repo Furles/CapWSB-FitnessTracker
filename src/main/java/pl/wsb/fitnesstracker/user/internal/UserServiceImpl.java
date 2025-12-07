@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
+import java.util.stream.Collectors;
 
 import java.util.List;
 import java.util.Optional;

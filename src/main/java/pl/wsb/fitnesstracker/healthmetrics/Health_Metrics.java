@@ -34,7 +34,7 @@ public class Health_Metrics {
     @Column(name = "height")
     private Double height;
 
-    @Column(name = "heartRate")
+    @Column(name = "heart_rate")
     private Integer heartRate;
 
     // Konstruktor
