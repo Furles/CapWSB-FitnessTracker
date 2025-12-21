@@ -26,7 +26,8 @@ public class UserMapper {
         return new UserSimpleDto(
                 user.getId(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                user.getEmail()
         );
     }
 
