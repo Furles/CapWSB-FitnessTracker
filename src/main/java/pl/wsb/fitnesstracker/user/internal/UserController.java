@@ -2,13 +2,14 @@ package pl.wsb.fitnesstracker.user.internal;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.wsb.fitnesstracker.user.api.User;
-import pl.wsb.fitnesstracker.user.api.UserDto;
-import pl.wsb.fitnesstracker.user.api.UserSimpleDto;
+import pl.wsb.fitnesstracker.user.api.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * REST Controller for managing user-related operations.
+ * Exposes API endpoints for CRUD operations and searching users.
+ */
 @RestController
 @RequestMapping("/v1/users")
 class UserController {
@@ -16,34 +17,36 @@ class UserController {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
 
+    /**
+     * Constructs a new UserController with required dependencies.
+     *
+     * @param userService the service implementation for user operations
+     * @param userMapper  the mapper for converting between entities and DTOs
+     */
     public UserController(UserServiceImpl userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
     }
 
     /**
-     * Zwraca wszystkich użytkowników (Pełne dane).
+     * Retrieves basic information (ID and Name) for all users.
+     *
+     * @return a list of {@link UserSimpleDto} objects
      */
     @GetMapping
-    public List<UserDto> getAllUsers() {
+    public List<UserSimpleDto> getAllUsers() {
         return userService.findAllUsers()
                 .stream()
-                .map(userMapper::toDto)
-                .toList();
-    }
-
-    /**
-     * Wymaganie: wylistowanie podstawowych informacji (ID, imię i nazwisko).
-     */
-    @GetMapping("/simple")
-    public List<UserSimpleDto> getAllSimpleUsers() {
-        return userService.findAllUsers().stream()
                 .map(userMapper::toSimpleDto)
                 .toList();
     }
 
     /**
-     * Wymaganie: pobranie szczegółów wybranego użytkownika po ID.
+     * Retrieves full details of a specific user by their ID.
+     *
+     * @param id the ID of the user to retrieve
+     * @return a {@link UserDto} containing user details
+     * @throws IllegalArgumentException if user is not found
      */
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable Long id) {
@@ -53,17 +56,22 @@ class UserController {
     }
 
     /**
-     * Wymaganie: utworzenie nowego użytkownika.
+     * Creates a new user in the system.
+     *
+     * @param dto the user data transfer object
+     * @return the created {@link UserDto}
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody UserDto dto) {
-        User created = userService.createUser(userMapper.toEntity(dto)); // Upewnij się, że masz metodę toEntity lub fromDto w Mapperze
+        User created = userService.createUser(userMapper.toEntity(dto));
         return userMapper.toDto(created);
     }
 
     /**
-     * Wymaganie: usunięcie użytkownika po ID.
+     * Deletes a user from the system by their ID.
+     *
+     * @param id the ID of the user to delete
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -72,7 +80,11 @@ class UserController {
     }
 
     /**
-     * Wymaganie: aktualizowanie użytkownika.
+     * Updates an existing user's information.
+     *
+     * @param id  the ID of the user to update
+     * @param dto the new user data
+     * @return the updated {@link UserDto}
      */
     @PutMapping("/{id}")
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto dto) {
@@ -81,23 +93,29 @@ class UserController {
     }
 
     /**
-     * Wymaganie: wyszukiwanie po e-mailu (fragment nazwy).
+     * Searches for users by an email fragment (case-insensitive).
+     * Returns only IDs and email addresses.
+     *
+     * @param email the email fragment to search for
+     * @return a list of {@link UserEmailDto}
      */
-    @GetMapping("/email")
-    public List<UserSimpleDto> getUsersByEmail(@RequestParam String email) {
-        return userService.findByEmailFragment(email).stream()
-                .map(userMapper::toSimpleDto)
+    @GetMapping("/search/emails")
+    public List<UserEmailDto> getUsersByEmail(@RequestParam String email) {
+        return userService.findUsersByEmail(email).stream()
+                .map(user -> new UserEmailDto(user.getId(), user.getEmail()))
                 .toList();
     }
 
     /**
-     * Wymaganie: wyszukiwanie użytkowników starszych niż zdefiniowany wiek.
-     * Uwaga: Wiek przeliczamy na datę przed wysłaniem do serwisu.
+     * Searches for users older than the specified age.
+     *
+     * @param age the age threshold
+     * @return a list of {@link UserSimpleDto}
      */
-    @GetMapping("/older/{date}")
-    public List<UserDto> getUsersOlderThan(@PathVariable LocalDate date) {
-        return userService.findOlderThan(date).stream()
-                .map(userMapper::toDto)
+    @GetMapping("/search/age")
+    public List<UserSimpleDto> getUsersOlderThan(@RequestParam int age) {
+        return userService.findUsersOlderThan(age).stream()
+                .map(userMapper::toSimpleDto)
                 .toList();
     }
 }

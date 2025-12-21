@@ -1,14 +1,15 @@
-// Plik: pl.wsb.fitnesstracker.user.api.UserSimpleDto.java
-
 package pl.wsb.fitnesstracker.user.api;
 
 /**
- * Record do zwracania uproszczonych danych użytkownika (ID, Imię i Nazwisko).
- * Używany do spełnienia wymagania listowania podstawowych informacji o wszystkich użytkownikach.
+ * A simplified Data Transfer Object (DTO) representing a user.
+ * This record is used to return only the essential information required for listing users,
+ * specifically their unique identifier and full name.
+ * * @param id the unique identifier of the user
+ * @param firstName the user's first name
+ * @param lastName the user's last name
  */
 public record UserSimpleDto(
         Long id,
         String firstName,
-        String lastName,
-        String email
+        String lastName
 ) {}

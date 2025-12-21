@@ -54,7 +54,8 @@ class InitialDataLoader {
         User user = new User(name,
                 lastName,
                 now().minusYears(age),
-                "%s.%s@domain.com".formatted(name, lastName));
+                "%s.%s@domain.com".formatted(name, lastName).toLowerCase(),
+                age); // Dodaliśmy age jako piąty parametr
         return userRepository.save(user);
     }
 

@@ -1,66 +1,68 @@
 package pl.wsb.fitnesstracker.user.api;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Interface (API) for modifying operations on {@link User} entities through the API.
+ * Interface defining the business logic operations for managing {@link User} entities.
+ * This API allows for CRUD operations and specialized search functionality.
  */
 public interface UserService {
 
     /**
-     * Creates a new user.
+     * Persists a new user in the system.
      *
-     * @param user The user to be created
-     * @return The created user
+     * @param user the user entity to be created
+     * @return the created {@link User} with an assigned ID
+     * @throws IllegalArgumentException if the user already has an ID
      */
     User createUser(User user);
 
     /**
-     * Deletes a user from the system.
+     * Removes a user from the system based on their unique identifier.
      *
-     * @param id ID of the user to be deleted
+     * @param id the ID of the user to delete
      */
     void deleteUser(Long id);
 
     /**
-     * Updates an existing user's data.
+     * Updates the data of an existing user.
      *
-     * @param id   ID of the user to update
-     * @param user User object containing new data
-     * @return The updated user
+     * @param id   the ID of the user to update
+     * @param user the user entity containing updated information
+     * @return the updated {@link User} entity
+     * @throws IllegalArgumentException if the user with the given ID does not exist
      */
     User updateUser(Long id, User user);
 
     /**
-     * Finds users older than a specific date.
+     * Retrieves a list of users who are older than the specified age.
      *
-     * @param date The threshold date
-     * @return List of matching users
+     * @param age the age threshold for the search
+     * @return a list of {@link User} entities matching the criteria
      */
-    List<User> findOlderThan(LocalDate date);
+    List<User> findUsersOlderThan(int age);
 
     /**
-     * Finds users by a fragment of their email address.
+     * Retrieves a list of users who are older than the specified age.
      *
-     * @param fragment The email fragment to search for
-     * @return List of matching users
+     * @param age the age threshold for the search
+     * @return a list of {@link User} entities matching the criteria
      */
-    List<User> findByEmailFragment(String fragment);
+    List<User> findUsersByEmail(String email);
 
     /**
-     * Retrieves all users.
+     * Retrieves all users currently registered in the system.
      *
-     * @return List of all users
+     * @return a list of all {@link User} entities
      */
     List<User> findAllUsers();
 
     /**
-     * Retrieves a single user by ID.
+     * Retrieves a single user by their unique identifier.
      *
-     * @param id User ID
-     * @return Optional containing the user if found
+     * @param id the ID of the user to find
+     * @return an {@link Optional} containing the user if found, or empty otherwise
      */
     Optional<User> getUser(Long id);
 }

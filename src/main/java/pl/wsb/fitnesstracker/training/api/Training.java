@@ -2,7 +2,6 @@ package pl.wsb.fitnesstracker.training.api;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
@@ -12,7 +11,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "trainings")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Training {
@@ -56,4 +54,12 @@ public class Training {
         this.averageSpeed = averageSpeed;
     }
 
+    // RĘCZNE GETTERY (Naprawią błędy w Mapperze)
+    public Long getId() { return id; }
+    public User getUser() { return user; }
+    public Date getStartTime() { return startTime; }
+    public Date getEndTime() { return endTime; }
+    public ActivityType getActivityType() { return activityType; }
+    public double getDistance() { return distance; }
+    public double getAverageSpeed() { return averageSpeed; }
 }
